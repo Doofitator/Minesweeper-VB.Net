@@ -81,7 +81,6 @@ tryAgain:
             Else
                 'yay u safe
                 'Console.WriteLine("Safe")
-                c.Enabled = False
 
                 Dim surrounds As List(Of Control) = New List(Of Control)
                 Dim btnNames As List(Of String) = New List(Of String)
@@ -148,7 +147,46 @@ tryAgain:
                 For Each controlName As String In btnNames
                     surrounds.Add(CType(Me.grp_field.Controls(controlName), Button))
                 Next
+
                 'now we've got surrounds with all the surrounding whosamawhatsits
+
+                'check the one you clicked first
+                If minesNearPoint(cNum) > 0 Then
+                    Select Case minesNearPoint(cNum)
+                        Case 0
+                            c.Enabled = False
+                            GoTo surroundsCheck
+                        Case 1
+                            c.ForeColor = Color.Blue
+                            c.Text = 1
+                        Case 2
+                            c.ForeColor = Color.Green
+                            c.Text = 2
+                        Case 3
+                            c.ForeColor = Color.Red
+                            c.Text = 3
+                        Case 4
+                            c.ForeColor = Color.Orange
+                            c.Text = 4
+                        Case 5
+                            c.ForeColor = Color.Gray
+                            c.Text = 5
+                        Case 6
+                            c.ForeColor = Color.DarkOrange
+                            c.Text = 6
+                        Case 7
+                            c.ForeColor = Color.Purple
+                            c.Text = 7
+                        Case 8
+                            c.ForeColor = Color.Black
+                            c.Text = 8
+                    End Select
+                    Exit Sub
+                Else
+                    c.Enabled = False
+                End If
+
+surroundsCheck:
                 For Each surroundingBtn As Button In surrounds
                     Dim amountOfMines As Integer = minesNearPoint(CInt(surroundingBtn.Name.Replace("field", "").Trim()))
                     Select Case amountOfMines

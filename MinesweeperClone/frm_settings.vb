@@ -9,4 +9,8 @@
         frm_minesweeper.rows = nud_rows.Value
         frm_minesweeper.makePlayingField()
     End Sub
+
+    Private Sub changeMinesMax(sender As Object, e As EventArgs) Handles nud_columns.ValueChanged, nud_rows.ValueChanged
+        nud_mines.Maximum = (nud_columns.Value * nud_rows.Value)
+    End Sub
 End Class

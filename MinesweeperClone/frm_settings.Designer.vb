@@ -37,8 +37,8 @@ Partial Class frm_settings
         'nud_mines
         '
         Me.nud_mines.Location = New System.Drawing.Point(86, 12)
-        Me.nud_mines.Maximum = New Decimal(New Integer() {2000, 0, 0, 0})
-        Me.nud_mines.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nud_mines.Maximum = New Decimal(New Integer() {320, 0, 0, 0})
+        Me.nud_mines.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.nud_mines.Name = "nud_mines"
         Me.nud_mines.Size = New System.Drawing.Size(120, 20)
         Me.nud_mines.TabIndex = 0
