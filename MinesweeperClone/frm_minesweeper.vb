@@ -50,13 +50,20 @@ tryAgain:
                 minesList.Add(rndNum)
             End If
             y -= 1
+            Randomize()
         End While
+
+        'debugging:
+        For Each Location As Integer In minesList
+            Console.Write(Location & ", ")
+        Next
+        Console.WriteLine()
     End Function
 
     Private Sub mine(sender As Object, e As MouseEventArgs)
         Dim c As Control = CType(sender, Button)
         Dim cNum As Integer = CInt(c.Name.Replace("field", "").Trim())
-
+        If Not c.Text = "" Then Exit Sub
         If e.Button = Windows.Forms.MouseButtons.Right Then
             If c.BackgroundImage IsNot Nothing Then c.BackgroundImage = Nothing : Exit Sub
             c.BackgroundImage = My.Resources.flag
@@ -107,7 +114,7 @@ tryAgain:
                         btnNames.Add(topRight)
                         btnNames.Add(top)
                     End If
-                ElseIf isPointOnRightEdge(cnum) Then
+                ElseIf isPointOnRightEdge(cNum) Then
                     btnNames.Add(middleLeft)
                     If isPointOnTopEdge(cNum) Then
                         btnNames.Add(bottomLeft)
@@ -188,34 +195,35 @@ tryAgain:
 
 surroundsCheck:
                 For Each surroundingBtn As Button In surrounds
-                    Dim amountOfMines As Integer = minesNearPoint(CInt(surroundingBtn.Name.Replace("field", "").Trim()))
+                    Dim surroundingBtnNum As Integer = CInt(surroundingBtn.Name.Replace("field", "").Trim())
+                    Dim amountOfMines As Integer = minesNearPoint(surroundingBtnNum)
                     Select Case amountOfMines
                         Case 0
                             surroundingBtn.Enabled = False
                         Case 1
                             surroundingBtn.ForeColor = Color.Blue
-                            surroundingBtn.Text = 1
+                            If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 1 Else surroundingBtn.Enabled = False
                         Case 2
                             surroundingBtn.ForeColor = Color.Green
-                            surroundingBtn.Text = 2
+                            If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 2 Else surroundingBtn.Enabled = False
                         Case 3
                             surroundingBtn.ForeColor = Color.Red
-                            surroundingBtn.Text = 3
+                            If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 3 Else surroundingBtn.Enabled = False
                         Case 4
                             surroundingBtn.ForeColor = Color.Orange
-                            surroundingBtn.Text = 4
+                            If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 4 Else surroundingBtn.Enabled = False
                         Case 5
                             surroundingBtn.ForeColor = Color.Gray
-                            surroundingBtn.Text = 5
+                            If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 5 Else surroundingBtn.Enabled = False
                         Case 6
                             surroundingBtn.ForeColor = Color.DarkOrange
-                            surroundingBtn.Text = 6
+                            If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 6 Else surroundingBtn.Enabled = False
                         Case 7
                             surroundingBtn.ForeColor = Color.Purple
-                            surroundingBtn.Text = 7
+                            If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 7 Else surroundingBtn.Enabled = False
                         Case 8
                             surroundingBtn.ForeColor = Color.Black
-                            surroundingBtn.Text = 8
+                            If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 8 Else surroundingBtn.Enabled = False
                     End Select
                 Next
             End If
