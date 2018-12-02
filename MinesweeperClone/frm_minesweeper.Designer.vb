@@ -98,19 +98,19 @@ Partial Class frm_minesweeper
         '
         Me.tsmi_options.Name = "tsmi_options"
         Me.tsmi_options.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.I), System.Windows.Forms.Keys)
-        Me.tsmi_options.Size = New System.Drawing.Size(180, 22)
+        Me.tsmi_options.Size = New System.Drawing.Size(153, 22)
         Me.tsmi_options.Text = "Options"
         '
         'tsmi_about
         '
         Me.tsmi_about.Name = "tsmi_about"
-        Me.tsmi_about.Size = New System.Drawing.Size(180, 22)
+        Me.tsmi_about.Size = New System.Drawing.Size(153, 22)
         Me.tsmi_about.Text = "About"
         '
         'tsmi_exit
         '
         Me.tsmi_exit.Name = "tsmi_exit"
-        Me.tsmi_exit.Size = New System.Drawing.Size(180, 22)
+        Me.tsmi_exit.Size = New System.Drawing.Size(153, 22)
         Me.tsmi_exit.Text = "Exit"
         '
         'frm_minesweeper

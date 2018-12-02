@@ -81,32 +81,107 @@ tryAgain:
             Else
                 'yay u safe
                 'Console.WriteLine("Safe")
+                c.Enabled = False
+
                 Dim surrounds As List(Of Control) = New List(Of Control)
                 Dim btnNames As List(Of String) = New List(Of String)
-                If Not isPointOnLeftEdge(cNum) Then
-                    btnNames.Add("field" & (cNum + (cols - 1)))
-                    btnNames.Add("field" & (cNum - 1))
-                    btnNames.Add("field" & (cNum - (cols + 1)))
-                End If                                                                  '//TODO: None of this works if you're on the top or bottom edges
-                If Not isPointOnRightEdge(cNum) Then
-                    btnNames.Add("field" & (cNum + (cols + 1)))
-                    btnNames.Add("field" & (cNum + 1))
-                    btnNames.Add("field" & (cNum - (cols - 1)))
-                End If
+                Dim topLeft As String = "field" & (cNum - (cols + 1))
+                Dim top As String = "field" & (cNum - (cols))
+                Dim topRight As String = "field" & (cNum - (cols - 1))
+                Dim middleLeft As String = "field" & (cNum - 1)
+                Dim middleRight As String = "field" & (cNum + 1)
+                Dim bottomLeft As String = "field" & (cNum + (cols - 1))
+                Dim bottom As String = "field" & (cNum + (cols))
+                Dim bottomRight As String = "field" & (cNum + (cols + 1))
 
-                If Not isPointOnTopEdge(cNum) Then btnNames.Add("field" & (cNum + (cols)))
-                If Not isPointOnBottomEdge(cNum) Then btnNames.Add("field" & (cNum - (cols)))
+                If isPointOnLeftEdge(cNum) Then
+                    btnNames.Add(middleRight)
+                    If isPointOnTopEdge(cNum) Then
+                        btnNames.Add(bottomRight)
+                        btnNames.Add(bottom)
+                    ElseIf isPointOnBottomEdge(cNum) Then
+                        btnNames.Add(topRight)
+                        btnNames.Add(top)
+                    Else
+                        btnNames.Add(bottomRight)
+                        btnNames.Add(bottom)
+                        btnNames.Add(topRight)
+                        btnNames.Add(top)
+                    End If
+                ElseIf isPointOnRightEdge(cnum) Then
+                    btnNames.Add(middleLeft)
+                    If isPointOnTopEdge(cNum) Then
+                        btnNames.Add(bottomLeft)
+                        btnNames.Add(bottom)
+                    ElseIf isPointOnBottomEdge(cNum) Then
+                        btnNames.Add(topLeft)
+                        btnNames.Add(top)
+                    Else
+                        btnNames.Add(bottomLeft)
+                        btnNames.Add(bottom)
+                        btnNames.Add(topLeft)
+                        btnNames.Add(top)
+                    End If
+                ElseIf isPointOnBottomEdge(cNum) Then
+                    btnNames.Add(middleLeft)
+                    btnNames.Add(topLeft)
+                    btnNames.Add(top)
+                    btnNames.Add(topRight)
+                    btnNames.Add(middleRight)
+                ElseIf isPointOnTopEdge(cNum) Then
+                    btnNames.Add(middleLeft)
+                    btnNames.Add(bottomLeft)
+                    btnNames.Add(bottom)
+                    btnNames.Add(bottomRight)
+                    btnNames.Add(middleRight)
+                Else
+                    btnNames.Add(top)
+                    btnNames.Add(topRight)
+                    btnNames.Add(middleRight)
+                    btnNames.Add(bottomRight)
+                    btnNames.Add(bottom)
+                    btnNames.Add(bottomLeft)
+                    btnNames.Add(middleLeft)
+                    btnNames.Add(topLeft)
+                End If
 
                 For Each controlName As String In btnNames
                     surrounds.Add(CType(Me.grp_field.Controls(controlName), Button))
                 Next
                 'now we've got surrounds with all the surrounding whosamawhatsits
                 For Each surroundingBtn As Button In surrounds
-                    Console.WriteLine(surroundingBtn.Name)
-
+                    Dim amountOfMines As Integer = minesNearPoint(CInt(surroundingBtn.Name.Replace("field", "").Trim()))
+                    Select Case amountOfMines
+                        Case 0
+                            surroundingBtn.Enabled = False
+                        Case 1
+                            surroundingBtn.ForeColor = Color.Blue
+                            surroundingBtn.Text = 1
+                        Case 2
+                            surroundingBtn.ForeColor = Color.Green
+                            surroundingBtn.Text = 2
+                        Case 3
+                            surroundingBtn.ForeColor = Color.Red
+                            surroundingBtn.Text = 3
+                        Case 4
+                            surroundingBtn.ForeColor = Color.Orange
+                            surroundingBtn.Text = 4
+                        Case 5
+                            surroundingBtn.ForeColor = Color.Gray
+                            surroundingBtn.Text = 5
+                        Case 6
+                            surroundingBtn.ForeColor = Color.DarkOrange
+                            surroundingBtn.Text = 6
+                        Case 7
+                            surroundingBtn.ForeColor = Color.Purple
+                            surroundingBtn.Text = 7
+                        Case 8
+                            surroundingBtn.ForeColor = Color.Black
+                            surroundingBtn.Text = 8
+                    End Select
                 Next
-                End If
             End If
+        End If
     End Sub
 
     Function isPointOnRightEdge(cNum As Integer)
@@ -131,14 +206,41 @@ tryAgain:
     End Function
 
     Function isPointOnTopEdge(cNum As Integer)
-
+        If cNum <= cols Then Return True Else Return False
     End Function
     Function isPointOnBottomEdge(cNum As Integer)
-
+        If cNum > ((cols * rows) - cols) Then Return True Else Return False
     End Function
 
-    Function isPointNextToMines(cNum As Integer)
-        'todo: this shit
+    Function minesNearPoint(cNum As Integer) As Integer
+        Dim topLeft As Integer = (cNum - (cols + 1))
+        Dim top As Integer = (cNum - (cols))
+        Dim topRight As Integer = (cNum - (cols - 1))
+        Dim middleLeft As Integer = (cNum - 1)
+        Dim middleRight As Integer = (cNum + 1)
+        Dim bottomLeft As Integer = (cNum + (cols - 1))
+        Dim bottom As Integer = (cNum + (cols))
+        Dim bottomRight As Integer = (cNum + (cols + 1))
+        Dim cList As List(Of Integer) = New List(Of Integer)
+        cList.Add(topLeft)
+        cList.Add(top)
+        cList.Add(topRight)
+        cList.Add(middleLeft)
+        cList.Add(middleRight)
+        cList.Add(bottomLeft)
+        cList.Add(bottom)
+        cList.Add(bottomRight)
+        Dim amountOfMines As Integer = 0
+
+        For Each mine As Integer In minesList
+            For Each possibility As Integer In cList
+                If mine = possibility Then
+                    amountOfMines += 1
+                End If
+            Next
+        Next
+
+        Return amountOfMines
     End Function
 
     Private Sub frm_minesweeper_Resize(sender As Object, e As EventArgs) Handles Me.Resize
@@ -158,5 +260,11 @@ tryAgain:
 
     Private Sub tsmi_exit_Click(sender As Object, e As EventArgs) Handles tsmi_exit.Click
         End
+    End Sub
+
+    Private Sub btn_status_Click(sender As Object, e As EventArgs) Handles btn_status.Click
+        Dim frm = New frm_minesweeper               '' Change the class name if necessary
+        frm.Show()
+        Me.Close()
     End Sub
 End Class
