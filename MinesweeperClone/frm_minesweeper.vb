@@ -309,8 +309,15 @@ surroundsCheck:
     End Sub
 
     Private Sub btn_status_Click(sender As Object, e As EventArgs) Handles btn_status.Click
-        Dim frm = New frm_minesweeper               '' Change the class name if necessary
-        frm.Show()
-        Me.Close()
+        For Each btn As Button In grp_field.Controls
+            btn.Enabled = True
+            btn.BackgroundImage = Nothing
+            btn.Text = ""
+        Next
+        lbl_mines.Text = "0000"
+        lbl_time.Text = "0000"
+        minesList.Clear()
+        makePlayingField()
+        btn_status.Image = My.Resources.happy
     End Sub
 End Class
