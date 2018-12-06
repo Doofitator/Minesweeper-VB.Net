@@ -203,6 +203,25 @@ surroundsCheck:
                         Case 1
                             surroundingBtn.ForeColor = Color.Blue
                             If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 1 Else surroundingBtn.Enabled = False
+                            'ok so this is a problem.
+                            'It is here so that when you click near an edge, you don't get mines from the other
+                            'side of the board, like this:
+                            '
+                            '0 0 0 0 0 0 0 0 1
+                            '1 1 0 0 0 0 0 0 1
+                            'M 1 0 0 0 0 0 0 1
+                            '1 1 0 0 0 0 0 0 0
+                            '
+                            'which is fine. It solves that problem.
+                            'HOWEVER, it causes the following:
+                            '
+                            '0 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 0
+                            '0 1 1 0 0 0 0 0 0 | 0 1 0 0 0 0 0 0 0
+                            '0 M 1 0 0 0 0 0 0 | M 1 0 0 0 0 0 0 0
+                            '0 1 1 0 0 0 0 0 0 | 0 1 0 0 0 0 0 0 0
+                            '0 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 0
+                            'so yeah we need to work that out
+
                         Case 2
                             surroundingBtn.ForeColor = Color.Green
                             If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 2 Else surroundingBtn.Enabled = False
