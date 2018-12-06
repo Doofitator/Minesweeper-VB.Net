@@ -96,7 +96,6 @@ tryAgain:
 
     Function doChecks(ByVal cNum As Integer)
         Dim c As Button = CType(grp_field.Controls("field" & cNum), Button)
-        Console.WriteLine(c.Name)
         Dim surrounds As List(Of Control) = New List(Of Control)
         Dim btnNames As List(Of String) = New List(Of String)
         Dim topLeft As String = "field" & (cNum - (cols + 1))
@@ -252,7 +251,9 @@ surroundsCheck:
                     surroundingBtn.ForeColor = Color.Black
                     If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 8 Else surroundingBtn.Enabled = False
             End Select
-            doChecks(surroundingBtnNum)
+            doChecks(surroundingBtnNum) 'TODO: This causes a stack overflow because the same buttons are looped and constantly
+            '                                  checked. Need to add cNum to a list first, and say before the 'for' statement not to 
+            '                                  check anything already in that list. Then, after the 'next' statement, clear the list.
         Next
     End Function
 
