@@ -89,120 +89,128 @@ tryAgain:
                 'yay u safe
                 'Console.WriteLine("Safe")
 
-                Dim surrounds As List(Of Control) = New List(Of Control)
-                Dim btnNames As List(Of String) = New List(Of String)
-                Dim topLeft As String = "field" & (cNum - (cols + 1))
-                Dim top As String = "field" & (cNum - (cols))
-                Dim topRight As String = "field" & (cNum - (cols - 1))
-                Dim middleLeft As String = "field" & (cNum - 1)
-                Dim middleRight As String = "field" & (cNum + 1)
-                Dim bottomLeft As String = "field" & (cNum + (cols - 1))
-                Dim bottom As String = "field" & (cNum + (cols))
-                Dim bottomRight As String = "field" & (cNum + (cols + 1))
+                doChecks(cNum)
+            End If
+        End If
+    End Sub
 
-                If isPointOnLeftEdge(cNum) Then
-                    btnNames.Add(middleRight)
-                    If isPointOnTopEdge(cNum) Then
-                        btnNames.Add(bottomRight)
-                        btnNames.Add(bottom)
-                    ElseIf isPointOnBottomEdge(cNum) Then
-                        btnNames.Add(topRight)
-                        btnNames.Add(top)
-                    Else
-                        btnNames.Add(bottomRight)
-                        btnNames.Add(bottom)
-                        btnNames.Add(topRight)
-                        btnNames.Add(top)
-                    End If
-                ElseIf isPointOnRightEdge(cNum) Then
-                    btnNames.Add(middleLeft)
-                    If isPointOnTopEdge(cNum) Then
-                        btnNames.Add(bottomLeft)
-                        btnNames.Add(bottom)
-                    ElseIf isPointOnBottomEdge(cNum) Then
-                        btnNames.Add(topLeft)
-                        btnNames.Add(top)
-                    Else
-                        btnNames.Add(bottomLeft)
-                        btnNames.Add(bottom)
-                        btnNames.Add(topLeft)
-                        btnNames.Add(top)
-                    End If
-                ElseIf isPointOnBottomEdge(cNum) Then
-                    btnNames.Add(middleLeft)
-                    btnNames.Add(topLeft)
-                    btnNames.Add(top)
-                    btnNames.Add(topRight)
-                    btnNames.Add(middleRight)
-                ElseIf isPointOnTopEdge(cNum) Then
-                    btnNames.Add(middleLeft)
-                    btnNames.Add(bottomLeft)
-                    btnNames.Add(bottom)
-                    btnNames.Add(bottomRight)
-                    btnNames.Add(middleRight)
-                Else
-                    btnNames.Add(top)
-                    btnNames.Add(topRight)
-                    btnNames.Add(middleRight)
-                    btnNames.Add(bottomRight)
-                    btnNames.Add(bottom)
-                    btnNames.Add(bottomLeft)
-                    btnNames.Add(middleLeft)
-                    btnNames.Add(topLeft)
-                End If
+    Function doChecks(ByVal cNum As Integer)
+        Dim c As Button = CType(grp_field.Controls("field" & cNum), Button)
+        Console.WriteLine(c.Name)
+        Dim surrounds As List(Of Control) = New List(Of Control)
+        Dim btnNames As List(Of String) = New List(Of String)
+        Dim topLeft As String = "field" & (cNum - (cols + 1))
+        Dim top As String = "field" & (cNum - (cols))
+        Dim topRight As String = "field" & (cNum - (cols - 1))
+        Dim middleLeft As String = "field" & (cNum - 1)
+        Dim middleRight As String = "field" & (cNum + 1)
+        Dim bottomLeft As String = "field" & (cNum + (cols - 1))
+        Dim bottom As String = "field" & (cNum + (cols))
+        Dim bottomRight As String = "field" & (cNum + (cols + 1))
 
-                For Each controlName As String In btnNames
-                    surrounds.Add(CType(Me.grp_field.Controls(controlName), Button))
-                Next
+        If isPointOnLeftEdge(cNum) Then
+            btnNames.Add(middleRight)
+            If isPointOnTopEdge(cNum) Then
+                btnNames.Add(bottomRight)
+                btnNames.Add(bottom)
+            ElseIf isPointOnBottomEdge(cNum) Then
+                btnNames.Add(topRight)
+                btnNames.Add(top)
+            Else
+                btnNames.Add(bottomRight)
+                btnNames.Add(bottom)
+                btnNames.Add(topRight)
+                btnNames.Add(top)
+            End If
+        ElseIf isPointOnRightEdge(cNum) Then
+            btnNames.Add(middleLeft)
+            If isPointOnTopEdge(cNum) Then
+                btnNames.Add(bottomLeft)
+                btnNames.Add(bottom)
+            ElseIf isPointOnBottomEdge(cNum) Then
+                btnNames.Add(topLeft)
+                btnNames.Add(top)
+            Else
+                btnNames.Add(bottomLeft)
+                btnNames.Add(bottom)
+                btnNames.Add(topLeft)
+                btnNames.Add(top)
+            End If
+        ElseIf isPointOnBottomEdge(cNum) Then
+            btnNames.Add(middleLeft)
+            btnNames.Add(topLeft)
+            btnNames.Add(top)
+            btnNames.Add(topRight)
+            btnNames.Add(middleRight)
+        ElseIf isPointOnTopEdge(cNum) Then
+            btnNames.Add(middleLeft)
+            btnNames.Add(bottomLeft)
+            btnNames.Add(bottom)
+            btnNames.Add(bottomRight)
+            btnNames.Add(middleRight)
+        Else
+            btnNames.Add(top)
+            btnNames.Add(topRight)
+            btnNames.Add(middleRight)
+            btnNames.Add(bottomRight)
+            btnNames.Add(bottom)
+            btnNames.Add(bottomLeft)
+            btnNames.Add(middleLeft)
+            btnNames.Add(topLeft)
+        End If
 
-                'now we've got surrounds with all the surrounding whosamawhatsits
+        For Each controlName As String In btnNames
+            surrounds.Add(CType(Me.grp_field.Controls(controlName), Button))
+        Next
 
-                'check the one you clicked first
-                If minesNearPoint(cNum) > 0 Then
-                    Select Case minesNearPoint(cNum)
-                        Case 0
-                            c.Enabled = False
-                            GoTo surroundsCheck
-                        Case 1
-                            c.ForeColor = Color.Blue
-                            c.Text = 1
-                        Case 2
-                            c.ForeColor = Color.Green
-                            c.Text = 2
-                        Case 3
-                            c.ForeColor = Color.Red
-                            c.Text = 3
-                        Case 4
-                            c.ForeColor = Color.Orange
-                            c.Text = 4
-                        Case 5
-                            c.ForeColor = Color.Gray
-                            c.Text = 5
-                        Case 6
-                            c.ForeColor = Color.DarkOrange
-                            c.Text = 6
-                        Case 7
-                            c.ForeColor = Color.Purple
-                            c.Text = 7
-                        Case 8
-                            c.ForeColor = Color.Black
-                            c.Text = 8
-                    End Select
-                    Exit Sub
-                Else
+        'now we've got surrounds with all the surrounding whosamawhatsits
+
+        'check the one you clicked first
+        If minesNearPoint(cNum) > 0 Then
+            Select Case minesNearPoint(cNum)
+                Case 0
                     c.Enabled = False
-                End If
+                    GoTo surroundsCheck
+                Case 1
+                    c.ForeColor = Color.Blue
+                    c.Text = 1
+                Case 2
+                    c.ForeColor = Color.Green
+                    c.Text = 2
+                Case 3
+                    c.ForeColor = Color.Red
+                    c.Text = 3
+                Case 4
+                    c.ForeColor = Color.Orange
+                    c.Text = 4
+                Case 5
+                    c.ForeColor = Color.Gray
+                    c.Text = 5
+                Case 6
+                    c.ForeColor = Color.DarkOrange
+                    c.Text = 6
+                Case 7
+                    c.ForeColor = Color.Purple
+                    c.Text = 7
+                Case 8
+                    c.ForeColor = Color.Black
+                    c.Text = 8
+            End Select
+            Exit Function
+        Else
+            c.Enabled = False
+        End If
 
 surroundsCheck:
-                For Each surroundingBtn As Button In surrounds
-                    Dim surroundingBtnNum As Integer = CInt(surroundingBtn.Name.Replace("field", "").Trim())
-                    Dim amountOfMines As Integer = minesNearPoint(surroundingBtnNum)
-                    Select Case amountOfMines
-                        Case 0
-                            surroundingBtn.Enabled = False
-                        Case 1
-                            surroundingBtn.ForeColor = Color.Blue
-                            If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 1 Else surroundingBtn.Enabled = False
+        For Each surroundingBtn As Button In surrounds
+            Dim surroundingBtnNum As Integer = CInt(surroundingBtn.Name.Replace("field", "").Trim())
+            Dim amountOfMines As Integer = minesNearPoint(surroundingBtnNum)
+            Select Case amountOfMines
+                Case 0
+                    surroundingBtn.Enabled = False
+                Case 1
+                    surroundingBtn.ForeColor = Color.Blue
+                    If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 1 Else surroundingBtn.Enabled = False
                             'ok so this is a problem.
                             'It is here so that when you click near an edge, you don't get mines from the other
                             'side of the board, like this:
@@ -222,32 +230,31 @@ surroundsCheck:
                             '0 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 1 M 0
                             'so yeah we need to work that out
 
-                        Case 2
-                            surroundingBtn.ForeColor = Color.Green
-                            If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 2 Else surroundingBtn.Enabled = False
-                        Case 3
-                            surroundingBtn.ForeColor = Color.Red
-                            If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 3 Else surroundingBtn.Enabled = False
-                        Case 4
-                            surroundingBtn.ForeColor = Color.Orange
-                            If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 4 Else surroundingBtn.Enabled = False
-                        Case 5
-                            surroundingBtn.ForeColor = Color.Gray
-                            If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 5 Else surroundingBtn.Enabled = False
-                        Case 6
-                            surroundingBtn.ForeColor = Color.DarkOrange
-                            If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 6 Else surroundingBtn.Enabled = False
-                        Case 7
-                            surroundingBtn.ForeColor = Color.Purple
-                            If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 7 Else surroundingBtn.Enabled = False
-                        Case 8
-                            surroundingBtn.ForeColor = Color.Black
-                            If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 8 Else surroundingBtn.Enabled = False
-                    End Select
-                Next
-            End If
-        End If
-    End Sub
+                Case 2
+                    surroundingBtn.ForeColor = Color.Green
+                    If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 2 Else surroundingBtn.Enabled = False
+                Case 3
+                    surroundingBtn.ForeColor = Color.Red
+                    If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 3 Else surroundingBtn.Enabled = False
+                Case 4
+                    surroundingBtn.ForeColor = Color.Orange
+                    If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 4 Else surroundingBtn.Enabled = False
+                Case 5
+                    surroundingBtn.ForeColor = Color.Gray
+                    If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 5 Else surroundingBtn.Enabled = False
+                Case 6
+                    surroundingBtn.ForeColor = Color.DarkOrange
+                    If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 6 Else surroundingBtn.Enabled = False
+                Case 7
+                    surroundingBtn.ForeColor = Color.Purple
+                    If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 7 Else surroundingBtn.Enabled = False
+                Case 8
+                    surroundingBtn.ForeColor = Color.Black
+                    If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 8 Else surroundingBtn.Enabled = False
+            End Select
+            doChecks(surroundingBtnNum)
+        Next
+    End Function
 
     Function isPointOnRightEdge(cNum As Integer)
         Dim isRight = cNum / cols
