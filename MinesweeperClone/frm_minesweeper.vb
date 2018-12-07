@@ -94,6 +94,7 @@ tryAgain:
         End If
     End Sub
 
+    Dim checkedList As List(Of Integer) = New List(Of Integer)
     Function doChecks(ByVal cNum As Integer)
         Dim c As Button = CType(grp_field.Controls("field" & cNum), Button)
         Dim surrounds As List(Of Control) = New List(Of Control)
@@ -204,6 +205,7 @@ surroundsCheck:
         For Each surroundingBtn As Button In surrounds
             Dim surroundingBtnNum As Integer = CInt(surroundingBtn.Name.Replace("field", "").Trim())
             Dim amountOfMines As Integer = minesNearPoint(surroundingBtnNum)
+            If checkedList.Contains(surroundingBtnNum) Then GoTo theNextOne
             Select Case amountOfMines
                 Case 0
                     surroundingBtn.Enabled = False
@@ -251,10 +253,13 @@ surroundsCheck:
                     surroundingBtn.ForeColor = Color.Black
                     If Not isPointOnLeftEdge(surroundingBtnNum) And Not isPointOnRightEdge(surroundingBtnNum) Then surroundingBtn.Text = 8 Else surroundingBtn.Enabled = False
             End Select
+            checkedList.Add(cNum)
             doChecks(surroundingBtnNum) 'TODO: This causes a stack overflow because the same buttons are looped and constantly
             '                                  checked. Need to add cNum to a list first, and say before the 'for' statement not to 
             '                                  check anything already in that list. Then, after the 'next' statement, clear the list.
         Next
+theNextOne:
+        checkedList.Clear()
     End Function
 
     Function isPointOnRightEdge(cNum As Integer)
