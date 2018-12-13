@@ -8,9 +8,9 @@
         btn_status.BackgroundImage = My.Resources.happy
         btn_status.BackgroundImageLayout = ImageLayout.Zoom
 
-        rows = 20
+        rows = 16
         cols = 16
-        mines = 20
+        mines = 40
         makePlayingField()
     End Sub
 
