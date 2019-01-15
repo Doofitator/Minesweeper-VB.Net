@@ -86,16 +86,58 @@ tryAgain:
             btnAlpha = btnAlpha.Replace(number, "")
         Next
 
-        Dim TL As String = (btnNum - 1) & alpha(alpha.ToList.LastIndexOf(btnAlpha) - 1)
-        Dim T As String = (btnNum - 1) & btnAlpha
-        Dim TR As String = (btnNum - 1) & alpha(alpha.ToList.LastIndexOf(btnAlpha) + 1)
-        Dim L As String = (btnNum) & alpha(alpha.ToList.LastIndexOf(btnAlpha) - 1)
-        Dim R As String = (btnNum) & alpha(alpha.ToList.LastIndexOf(btnAlpha) + 1)
-        Dim BL As String = (btnNum + 1) & alpha(alpha.ToList.LastIndexOf(btnAlpha) - 1)
-        Dim B As String = (btnNum + 1) & btnAlpha
-        Dim BR As String = (btnNum + 1) & alpha(alpha.ToList.LastIndexOf(btnAlpha) + 1)
+        Dim TL As String = ""
+        Dim T As String = ""
+        Dim TR As String = ""
+        Dim L As String = ""
+        Dim R As String = ""
+        Dim BL As String = ""
+        Dim B As String = ""
+        Dim BR As String = ""
 
-        If CoordinateLocator(bCoOrds) = "C" Then
+        Try
+            TL = (btnNum - 1) & alpha(alpha.ToList.LastIndexOf(btnAlpha) - 1)
+        Catch
+            Console.Write("No TL, ")
+        End Try
+        Try
+            T = (btnNum - 1) & btnAlpha
+        Catch
+            Console.Write("No T, ")
+        End Try
+        Try
+            TR = (btnNum - 1) & alpha(alpha.ToList.LastIndexOf(btnAlpha) + 1)
+        Catch
+            Console.Write("No TR, ")
+        End Try
+        Try
+            L = (btnNum) & alpha(alpha.ToList.LastIndexOf(btnAlpha) - 1)
+        Catch
+            Console.Write("No L, ")
+        End Try
+        Try
+            R = (btnNum) & alpha(alpha.ToList.LastIndexOf(btnAlpha) + 1)
+        Catch
+            Console.Write("No R, ")
+        End Try
+        Try
+            BL = (btnNum + 1) & alpha(alpha.ToList.LastIndexOf(btnAlpha) - 1)
+        Catch
+            Console.Write("No BL, ")
+        End Try
+        Try
+            B = (btnNum + 1) & btnAlpha
+        Catch
+            Console.Write("No B, ")
+        End Try
+        Try
+            BR = (btnNum + 1) & alpha(alpha.ToList.LastIndexOf(btnAlpha) + 1)
+        Catch
+            Console.Write("No BR, ")
+        End Try
+        Console.WriteLine()
+
+        If CoordinateLocator(bCoOrds) = "C" Then 'if it's a regular center coordinate
 
         End If
     End Sub
