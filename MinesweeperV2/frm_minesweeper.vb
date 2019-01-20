@@ -111,9 +111,9 @@ tryAgain:
             Console.Write("No TR, ")
         End Try
         Try
-            L = (btnNum) & alpha(alpha.ToList.LastIndexOf(btnAlpha) - 1)
+            L = (btnNum) & alpha(alpha.ToList.LastIndexOf(btnAlpha) - 1) 'wot is happening when you hit something in row 10?
         Catch
-            Console.Write("No L, ")
+            Console.Write("No L (" & btnAlpha & ") - (" & btnNum & "), ")
         End Try
         Try
             R = (btnNum) & alpha(alpha.ToList.LastIndexOf(btnAlpha) + 1)
