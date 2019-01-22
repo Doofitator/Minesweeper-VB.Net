@@ -156,13 +156,10 @@ tryAgain:
                     End If
                 Next
                 '.text = amount of bombs in surrounding items & EXIT SUB
-                h(1)
                 If Not surroundingBombs = 0 Then
                     this.Text = surroundingBombs
-                    h(2)
                     Exit Sub
                 Else
-                    h(3)
                     this.Enabled = False
                     For a = x To grid_size - 1
                         arr_btns(a, y).PerformClick() 'Click on arr_btns(a, y)
