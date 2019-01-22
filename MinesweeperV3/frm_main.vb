@@ -166,7 +166,7 @@ tryAgain:
                         If Not arr_btns(a, y).Text = "" Then Exit For
                     Next 'next
 
-                    For a = x To 0
+                    For a = x To 0 Step -1
                         arr_btns(a, y).PerformClick() 'Click on arr_btns(a, y)
                         If Not arr_btns(a, y).Text = "" Then Exit For
                     Next
@@ -176,7 +176,7 @@ tryAgain:
                         If Not arr_btns(x, b).Text = "" Then Exit For
                     Next
 
-                    For b = y To 0
+                    For b = y To 0 Step -1
                         arr_btns(x, b).PerformClick() 'Click on arrbtns(x, b)
                         If Not arr_btns(x, b).Text = "" Then Exit For
                     Next
@@ -191,8 +191,8 @@ tryAgain:
                     Next
 
                     Dim for2 As Boolean = False
-                    For a = x To 0
-                        For b = y To 0
+                    For a = x To 0 Step -1
+                        For b = y To 0 Step -1
                             arr_btns(a, b).PerformClick() 'click on arrbtns(a,b)
                             If Not arr_btns(a, b).Text = "" Then for2 = True : Exit For
                         Next
