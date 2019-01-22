@@ -43,6 +43,7 @@
                     .Left = y * button_size
                     .TabStop = 0
                     .Name = x & "_" & y
+                    .Font = New Font("Microsoft Sans Serif", 8, FontStyle.Bold)
                 End With
                 Me.Controls.Add(arr_btns(x, y))
                 AddHandler arr_btns(x, y).Click, AddressOf mine     '| this basically causes everything to run twice, but its 2019 
@@ -140,6 +141,7 @@ tryAgain:
         If this.Enabled = False Then Exit Sub
 
         If Not this.BackColor = Color.Blue Then
+            this.BackColor = SystemColors.ControlLight
             'get x,y
             Dim x As Integer
             Dim y As Integer
@@ -219,6 +221,24 @@ tryAgain:
                 '.text = amount of bombs in surrounding items & EXIT SUB
                 If Not surroundingBombs = 0 Then
                     this.Text = surroundingBombs
+                    Select Case surroundingBombs
+                        Case 1
+                            this.ForeColor = Color.Blue
+                        Case 2
+                            this.ForeColor = Color.Green
+                        Case 3
+                            this.ForeColor = Color.Red
+                        Case 4
+                            this.ForeColor = Color.DarkBlue
+                        Case 5
+                            this.ForeColor = Color.DarkRed
+                        Case 6
+                            this.ForeColor = Color.DarkCyan
+                        Case 7
+                            this.ForeColor = Color.Purple
+                        Case 8
+                            this.ForeColor = Color.Black
+                    End Select
                     Exit Sub
                 Else
                     this.Enabled = False
