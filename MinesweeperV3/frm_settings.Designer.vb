@@ -44,7 +44,7 @@ Partial Class frm_settings
         'nud_gridSize
         '
         Me.nud_gridSize.Location = New System.Drawing.Point(118, 38)
-        Me.nud_gridSize.Maximum = New Decimal(New Integer() {20, 0, 0, 0})
+        Me.nud_gridSize.Maximum = New Decimal(New Integer() {50, 0, 0, 0})
         Me.nud_gridSize.Minimum = New Decimal(New Integer() {10, 0, 0, 0})
         Me.nud_gridSize.Name = "nud_gridSize"
         Me.nud_gridSize.Size = New System.Drawing.Size(120, 20)

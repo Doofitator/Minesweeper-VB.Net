@@ -1,16 +1,35 @@
 ﻿Public Class frm_main
     Public button_size As Integer = 30
-    Public grid_size As Integer = 10
+    Public grid_size As Integer = 50
     Public mines_amount As Integer = 10
     Public arr_btns(grid_size, grid_size) As Button
     Public mine_btns As New List(Of Button)
+    Public firstStart As Boolean = True
 
     Public Sub frm_main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         mine_btns.Clear()
         tssl_ticker.Text = 0
         tssl_remainingMines.Text = mines_amount + 1
         Me.ClientSize = New Size(button_size * grid_size, (button_size * grid_size) + 22)
         loadGrid()
+
+        If firstStart Then
+            firstStart = False
+            grid_size = 10
+            Dim ctrlList As New List(Of Button)
+            For Each control In Me.Controls
+                If Not TypeOf control Is StatusStrip And Not TypeOf control Is Timer Then
+                    ctrlList.Add(control)
+                End If
+            Next
+            For Each control In ctrlList
+                Me.Controls.Remove(control)
+            Next
+            frm_main_Load(sender, e)
+        End If
+
+
     End Sub
 
     Function loadGrid()
