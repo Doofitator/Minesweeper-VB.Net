@@ -61,9 +61,7 @@ tryAgain:
             Else
                 mine_btns.Add(mineBtn)
             End If
-            Console.Write(mineBtn.Name & "  -  ")
         Next
-        Console.WriteLine()
     End Function
 
     Sub addcount(sender As Object, e As EventArgs)
@@ -84,10 +82,6 @@ tryAgain:
             If e.Button = MouseButtons.Right Then this.BackColor = Nothing : this.UseVisualStyleBackColor = True : tssl_remainingMines.Text += 1
         End If
     End Sub
-
-    Function h(i As Integer)
-        Console.WriteLine(i)
-    End Function
 
     Sub mine(sender As Object, e As EventArgs)
         Dim this As Button = CType(sender, Button)
@@ -110,6 +104,9 @@ tryAgain:
 
             If mine_btns.Contains(this) Then
                 'GAME OVER
+                For Each mineLocation In mine_btns
+                    mineLocation.BackColor = Color.Yellow
+                Next
                 this.BackColor = Color.Red
             Else
                 'find surrounding items
@@ -219,10 +216,10 @@ tryAgain:
     End Sub
 
     Private Sub SettingsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SettingsToolStripMenuItem.Click
-        'show settings form to change grid size and amount of mines
+
     End Sub
 
     Private Sub AboutToolStripMenuItem_Click(sender As Object, e As MouseEventArgs) Handles AboutToolStripMenuItem.MouseDown
-
+        MsgBox("Minesweeper Clone" & vbCrLf & "Created by Ash Sharkey for VCE Software Development 2018-19.", vbOKOnly + vbInformation, "About")
     End Sub
 End Class
