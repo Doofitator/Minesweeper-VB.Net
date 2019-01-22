@@ -81,6 +81,21 @@ tryAgain:
         tssl_ticker.Text += 1
     End Sub
 
+    Public Function AreSame(ByVal List1 As List(Of Button), ByVal List2 As List(Of Button)) As Boolean
+        If List1.Count <> List2.Count Then
+            Return False
+        End If
+
+        For i As Integer = 0 To List1.Count - 1
+
+            If Not List2.Contains(List1(i)) Or Not List1.Contains(List2(i)) Then
+                Return False
+            End If
+        Next
+
+        Return True
+    End Function
+
     Sub rightClick(sender As Object, e As MouseEventArgs)
         Dim this As Button = CType(sender, Button)
         If Not this.BackColor = Color.Blue Then
@@ -94,18 +109,29 @@ tryAgain:
             If e.Button = MouseButtons.Right Then this.BackColor = Nothing : this.UseVisualStyleBackColor = True : tssl_remainingMines.Text += 1
         End If
         If tssl_remainingMines.Text <= 0 Then
-            MsgBox("You win!")
-            Dim ctrlList As New List(Of Button)
+            Dim SafeList As New List(Of Button)
             For Each control In Me.Controls
-                If Not TypeOf control Is StatusStrip And Not TypeOf control Is Timer Then
-                    ctrlList.Add(control)
+                If TypeOf control Is Button Then
+                    If control.backcolor = Color.Blue Then SafeList.Add(control)
                 End If
             Next
-            For Each control In ctrlList
-                Me.Controls.Remove(control)
-            Next
-            frm_main_Load(sender, e)
-        End If
+
+            If Not AreSame(SafeList, mine_btns) Then
+                Exit Sub
+            End If
+
+            MsgBox("You win!")
+                Dim ctrlList As New List(Of Button)
+                For Each control In Me.Controls
+                    If Not TypeOf control Is StatusStrip And Not TypeOf control Is Timer Then
+                        ctrlList.Add(control)
+                    End If
+                Next
+                For Each control In ctrlList
+                    Me.Controls.Remove(control)
+                Next
+                frm_main_Load(sender, e)
+            End If
     End Sub
 
     Sub mine(sender As Object, e As EventArgs)
