@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frm_main
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,9 +20,8 @@ Partial Class frm_main
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frm_main))
         Me.stp_info = New System.Windows.Forms.StatusStrip()
         Me.tssb_menu = New System.Windows.Forms.ToolStripDropDownButton()
@@ -31,7 +30,6 @@ Partial Class frm_main
         Me.NewGameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tssl_ticker = New System.Windows.Forms.ToolStripStatusLabel()
         Me.tssl_remainingMines = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.stp_info.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -107,5 +105,4 @@ Partial Class frm_main
     Friend WithEvents SettingsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents NewGameToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents AboutToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents Timer1 As Timer
 End Class

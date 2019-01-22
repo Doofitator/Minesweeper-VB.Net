@@ -8,7 +8,7 @@
     Public Sub frm_main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         mine_btns.Clear()
         tssl_ticker.Text = 0
-        tssl_remainingMines.Text = mines_amount
+        tssl_remainingMines.Text = mines_amount + 1
         Me.ClientSize = New Size(button_size * grid_size, (button_size * grid_size) + 22)
         loadGrid()
     End Sub
@@ -75,11 +75,23 @@ tryAgain:
             If e.Button = MouseButtons.Right Then
                 this.BackColor = Color.Blue
                 tssl_remainingMines.Text -= 1
-                Exit Sub
             End If
 
         Else
             If e.Button = MouseButtons.Right Then this.BackColor = Nothing : this.UseVisualStyleBackColor = True : tssl_remainingMines.Text += 1
+        End If
+        If tssl_remainingMines.Text <= 0 Then
+            MsgBox("You win!")
+            Dim ctrlList As New List(Of Button)
+            For Each control In Me.Controls
+                If Not TypeOf control Is StatusStrip Then
+                    ctrlList.Add(control)
+                End If
+            Next
+            For Each control In ctrlList
+                Me.Controls.Remove(control)
+            Next
+            frm_main_Load(sender, e)
         End If
     End Sub
 
