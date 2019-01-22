@@ -8,6 +8,7 @@
     Private Sub frm_main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         mine_btns.Clear()
         tssl_ticker.Text = 0
+        tssl_remainingMines.Text = mines_amount
         Me.ClientSize = New Size(button_size * grid_size, (button_size * grid_size) + 22)
         loadGrid()
     End Sub
@@ -75,11 +76,12 @@ tryAgain:
 
             If e.Button = MouseButtons.Right Then
                 this.BackColor = Color.Blue
+                tssl_remainingMines.Text -= 1
                 Exit Sub
             End If
 
         Else
-            If e.Button = MouseButtons.Right Then this.BackColor = Nothing : this.UseVisualStyleBackColor = True
+            If e.Button = MouseButtons.Right Then this.BackColor = Nothing : this.UseVisualStyleBackColor = True : tssl_remainingMines.Text += 1
         End If
     End Sub
 
