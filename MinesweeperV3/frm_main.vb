@@ -1,7 +1,7 @@
 ﻿Public Class frm_main
     Public button_size As Integer = 30
-    Public grid_size As Integer = 20
-    Public mines_amount As Integer = 50
+    Public grid_size As Integer = 10
+    Public mines_amount As Integer = 25
     Public arr_btns(grid_size, grid_size) As Button
     Public mine_btns As New List(Of Button)
 
