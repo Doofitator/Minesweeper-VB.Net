@@ -22,14 +22,16 @@ Partial Class frm_main
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frm_main))
         Me.stp_info = New System.Windows.Forms.StatusStrip()
         Me.tssb_menu = New System.Windows.Forms.ToolStripDropDownButton()
+        Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NewGameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tssl_ticker = New System.Windows.Forms.ToolStripStatusLabel()
         Me.tssl_remainingMines = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.NewGameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.stp_info.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -52,6 +54,24 @@ Partial Class frm_main
         Me.tssb_menu.Size = New System.Drawing.Size(51, 20)
         Me.tssb_menu.Text = "Game"
         '
+        'AboutToolStripMenuItem
+        '
+        Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(132, 22)
+        Me.AboutToolStripMenuItem.Text = "About"
+        '
+        'SettingsToolStripMenuItem
+        '
+        Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
+        Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(132, 22)
+        Me.SettingsToolStripMenuItem.Text = "Settings"
+        '
+        'NewGameToolStripMenuItem
+        '
+        Me.NewGameToolStripMenuItem.Name = "NewGameToolStripMenuItem"
+        Me.NewGameToolStripMenuItem.Size = New System.Drawing.Size(132, 22)
+        Me.NewGameToolStripMenuItem.Text = "New Game"
+        '
         'tssl_ticker
         '
         Me.tssl_ticker.Name = "tssl_ticker"
@@ -63,24 +83,6 @@ Partial Class frm_main
         Me.tssl_remainingMines.Name = "tssl_remainingMines"
         Me.tssl_remainingMines.Size = New System.Drawing.Size(31, 17)
         Me.tssl_remainingMines.Text = "0000"
-        '
-        'NewGameToolStripMenuItem
-        '
-        Me.NewGameToolStripMenuItem.Name = "NewGameToolStripMenuItem"
-        Me.NewGameToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.NewGameToolStripMenuItem.Text = "New Game"
-        '
-        'SettingsToolStripMenuItem
-        '
-        Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
-        Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.SettingsToolStripMenuItem.Text = "Settings"
-        '
-        'AboutToolStripMenuItem
-        '
-        Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.AboutToolStripMenuItem.Text = "About"
         '
         'frm_main
         '
@@ -105,4 +107,5 @@ Partial Class frm_main
     Friend WithEvents SettingsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents NewGameToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents AboutToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Timer1 As Timer
 End Class

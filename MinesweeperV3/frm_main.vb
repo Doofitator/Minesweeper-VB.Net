@@ -25,7 +25,7 @@
                     .Name = x & "_" & y
                 End With
                 Me.Controls.Add(arr_btns(x, y))
-                AddHandler arr_btns(x, y).Click, AddressOf mine
+                AddHandler arr_btns(x, y).MouseDown, AddressOf mine
             Next
         Next
         loadMines()
@@ -45,9 +45,14 @@
             End If
         Next
         For i = 0 To mines_amount
+tryAgain:
             Randomize()
             Dim mineBtn As Button = btnsList.Item(CInt(Math.Ceiling(Rnd() * (grid_size ^ 2))))
-            mine_btns.Add(mineBtn)
+            If mine_btns.Contains(mineBtn) Then
+                GoTo tryagain
+            Else
+                mine_btns.Add(mineBtn)
+            End If
             Console.Write(mineBtn.Name & "  -  ")
         Next
         Console.WriteLine()
@@ -57,10 +62,20 @@
         tssl_ticker.Text += 1
     End Sub
 
-    Sub mine(sender As Object, e As EventArgs)
+    Sub mine(sender As Object, e As MouseEventArgs)
         Dim this As Button = CType(sender, Button)
-        If mine_btns.Contains(this) Then
-            this.BackColor = Color.Red
+        If Not this.BackColor = Color.Blue Then
+
+            If e.Button = MouseButtons.Right Then
+                this.BackColor = Color.Blue
+                Exit Sub
+            End If
+            If mine_btns.Contains(this) Then
+                'GAME OVER
+                this.BackColor = Color.Red
+            End If
+        Else
+            If e.Button = MouseButtons.Right Then this.BackColor = Nothing : this.UseVisualStyleBackColor = True
         End If
     End Sub
 
