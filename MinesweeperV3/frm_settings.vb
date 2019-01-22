@@ -4,7 +4,7 @@
         frm_main.grid_size = nud_gridSize.Value
         Dim ctrlList As New List(Of Button)
         For Each control In frm_main.Controls
-            If Not TypeOf control Is StatusStrip Then
+            If Not TypeOf control Is StatusStrip And Not TypeOf control Is Timer Then
                 ctrlList.Add(control)
             End If
         Next

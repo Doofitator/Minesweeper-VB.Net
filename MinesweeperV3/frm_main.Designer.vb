@@ -22,6 +22,7 @@ Partial Class frm_main
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frm_main))
         Me.stp_info = New System.Windows.Forms.StatusStrip()
         Me.tssb_menu = New System.Windows.Forms.ToolStripDropDownButton()
@@ -30,6 +31,7 @@ Partial Class frm_main
         Me.NewGameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tssl_ticker = New System.Windows.Forms.ToolStripStatusLabel()
         Me.tssl_remainingMines = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.tmr = New System.Windows.Forms.Timer(Me.components)
         Me.stp_info.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -82,6 +84,11 @@ Partial Class frm_main
         Me.tssl_remainingMines.Size = New System.Drawing.Size(31, 17)
         Me.tssl_remainingMines.Text = "0000"
         '
+        'tmr
+        '
+        Me.tmr.Enabled = True
+        Me.tmr.Interval = 1000
+        '
         'frm_main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -105,4 +112,5 @@ Partial Class frm_main
     Friend WithEvents SettingsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents NewGameToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents AboutToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents tmr As Timer
 End Class

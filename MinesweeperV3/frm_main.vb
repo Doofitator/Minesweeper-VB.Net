@@ -31,12 +31,6 @@
             Next
         Next
         loadMines()
-        Dim tmr As New Timer
-        With tmr
-            .Enabled = True
-            .Interval = 1000
-        End With
-        AddHandler tmr.Tick, AddressOf addcount
     End Function
 
     Function loadMines()
@@ -64,7 +58,7 @@ tryAgain:
         Next
     End Function
 
-    Sub addcount(sender As Object, e As EventArgs)
+    Sub addcount(sender As Object, e As EventArgs) Handles tmr.Tick
         tssl_ticker.Text += 1
     End Sub
 
@@ -84,7 +78,7 @@ tryAgain:
             MsgBox("You win!")
             Dim ctrlList As New List(Of Button)
             For Each control In Me.Controls
-                If Not TypeOf control Is StatusStrip Then
+                If Not TypeOf control Is StatusStrip And Not TypeOf control Is Timer Then
                     ctrlList.Add(control)
                 End If
             Next
@@ -123,7 +117,7 @@ tryAgain:
                 MsgBox("You lose!")
                 Dim ctrlList As New List(Of Button)
                 For Each control In Me.Controls
-                    If Not TypeOf control Is StatusStrip Then
+                    If Not TypeOf control Is StatusStrip And Not TypeOf control Is Timer Then
                         ctrlList.Add(control)
                     End If
                 Next
@@ -228,7 +222,7 @@ tryAgain:
     Private Sub NewGameToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewGameToolStripMenuItem.Click
         Dim ctrlList As New List(Of Button)
         For Each control In Me.Controls
-            If Not TypeOf control Is StatusStrip Then
+            If Not TypeOf control Is StatusStrip And Not TypeOf control Is Timer Then
                 ctrlList.Add(control)
             End If
         Next
