@@ -108,6 +108,17 @@ tryAgain:
                     mineLocation.BackColor = Color.Yellow
                 Next
                 this.BackColor = Color.Red
+                MsgBox("You lose!")
+                Dim ctrlList As New List(Of Button)
+                For Each control In Me.Controls
+                    If Not TypeOf control Is StatusStrip Then
+                        ctrlList.Add(control)
+                    End If
+                Next
+                For Each control In ctrlList
+                    Me.Controls.Remove(control)
+                Next
+                frm_main_Load(sender, e)
             Else
                 'find surrounding items
                 Dim lst_surrounds As New List(Of Button)
