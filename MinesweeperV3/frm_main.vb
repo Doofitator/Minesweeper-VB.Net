@@ -64,6 +64,19 @@ tryAgain:
 
     Sub mine(sender As Object, e As MouseEventArgs)
         Dim this As Button = CType(sender, Button)
+
+        'get x,y
+        Dim x As Integer
+        Dim y As Integer
+        Dim found As Boolean = False
+        For y = 0 To grid_size - 1
+            For x = 0 To grid_size - 1
+                If sender Is arr_btns(x, y) Then found = True : Exit For
+            Next
+            If found = True Then Exit For
+        Next
+
+
         If Not this.BackColor = Color.Blue Then
 
             If e.Button = MouseButtons.Right Then
@@ -73,6 +86,38 @@ tryAgain:
             If mine_btns.Contains(this) Then
                 'GAME OVER
                 this.BackColor = Color.Red
+            Else
+                'find surrounding items
+
+                'if surrounding items are a bomb
+
+                '.text = amount of bombs in surrounding items & EXIT SUB
+
+                'else
+
+                'for a = x to gridsize-1, click on arr_btns(a,y)
+                'next
+
+                'for a=x to 0, click on arr_btns(a,y)
+                'next
+
+                'for b=y to fridsize-1, click on arrbtns(x, b)
+                'next
+
+                'for b=y to 0, click on arrbtns(x,b)
+                'next
+
+                'for a=x to gridsize-1
+                'for b=y to gridsize-1
+                'click on arrbtns(a,b)
+                'next
+                'next
+
+                'for a=x to 0
+                'for b=y to 0
+                'click on arrbtns(a,b)
+                'next
+                'next
             End If
         Else
             If e.Button = MouseButtons.Right Then this.BackColor = Nothing : this.UseVisualStyleBackColor = True
