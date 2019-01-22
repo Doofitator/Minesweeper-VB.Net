@@ -25,7 +25,8 @@
                     .Name = x & "_" & y
                 End With
                 Me.Controls.Add(arr_btns(x, y))
-                AddHandler arr_btns(x, y).MouseDown, AddressOf mine
+                AddHandler arr_btns(x, y).Click, AddressOf mine     '| this basically causes everything to run twice, but its 2019 
+                AddHandler arr_btns(x, y).MouseDown, AddressOf rightClick '| and everyone has 8GB of ram and > 2Ghz processor so I dont really care
             Next
         Next
         loadMines()
@@ -45,11 +46,17 @@
             End If
         Next
         For i = 0 To mines_amount
+            Dim minebtn As Button
 tryAgain:
             Randomize()
-            Dim mineBtn As Button = btnsList.Item(CInt(Math.Ceiling(Rnd() * (grid_size ^ 2))))
+            Try
+                minebtn = btnsList.Item(CInt(Math.Ceiling(Rnd() * (grid_size ^ 2))))
+            Catch
+                GoTo tryAgain
+            End Try
+
             If mine_btns.Contains(mineBtn) Then
-                GoTo tryagain
+                GoTo tryAgain
             Else
                 mine_btns.Add(mineBtn)
             End If
@@ -62,8 +69,25 @@ tryAgain:
         tssl_ticker.Text += 1
     End Sub
 
-    Sub mine(sender As Object, e As MouseEventArgs)
+    Sub rightClick(sender As Object, e As MouseEventArgs)
         Dim this As Button = CType(sender, Button)
+        If Not this.BackColor = Color.Blue Then
+
+            If e.Button = MouseButtons.Right Then
+                this.BackColor = Color.Blue
+                Exit Sub
+            End If
+
+        Else
+            If e.Button = MouseButtons.Right Then this.BackColor = Nothing : this.UseVisualStyleBackColor = True
+        End If
+    End Sub
+
+    Sub mine(sender As Object, e As EventArgs)
+        Dim this As Button = CType(sender, Button)
+
+        'making sure because i really don't want to deal with this later
+        If this.Enabled = False Then Exit Sub
 
         'get x,y
         Dim x As Integer
@@ -77,34 +101,76 @@ tryAgain:
         Next
 
 
-        If Not this.BackColor = Color.Blue Then
 
-            If e.Button = MouseButtons.Right Then
-                this.BackColor = Color.Blue
-                Exit Sub
-            End If
-            If mine_btns.Contains(this) Then
-                'GAME OVER
-                this.BackColor = Color.Red
+        If mine_btns.Contains(this) Then
+            'GAME OVER
+            this.BackColor = Color.Red
+        Else
+            'find surrounding items
+            Dim lst_surrounds As New List(Of Button)
+
+            'the following are wrapped in individual try/catch because say you click the top left most button on the field - you'll cause an indexoutofrangeexception. There are better ways to handle this, but I've been working on some form of this project all summer, so I really can't be bothered anymore.
+
+            Try
+                lst_surrounds.Add(arr_btns(x - 1, y - 1))   'top left
+            Catch
+            End Try
+            Try
+                lst_surrounds.Add(arr_btns(x, y - 1))       'top
+            Catch
+            End Try
+            Try
+                lst_surrounds.Add(arr_btns(x + 1, y - 1))   'top right
+            Catch
+            End Try
+            Try
+                lst_surrounds.Add(arr_btns(x - 1, y))       'left
+            Catch
+            End Try
+            Try
+                lst_surrounds.Add(arr_btns(x + 1, y))       'right
+            Catch
+            End Try
+            Try
+                lst_surrounds.Add(arr_btns(x - 1, y + 1))   'bottom left
+            Catch
+            End Try
+            Try
+                lst_surrounds.Add(arr_btns(x, y + 1))       'bottom
+            Catch
+            End Try
+            Try
+                lst_surrounds.Add(arr_btns(x + 1, y + 1))   'bottom right
+            Catch
+            End Try
+
+            'if surrounding items are a bomb
+            Dim surroundingBombs As Integer = 0
+            For Each surroundingbtn As Button In lst_surrounds
+                If mine_btns.Contains(surroundingbtn) Then
+                    surroundingBombs += 1
+                End If
+            Next
+            '.text = amount of bombs in surrounding items & EXIT SUB
+            If surroundingBombs > 0 Then
+                this.Text = surroundingBombs
+
             Else
-                'find surrounding items
+                this.Enabled = False
+                For a = x To grid_size - 1
+                    arr_btns(a, y).PerformClick() 'Click on arr_btns(a, y)
+                Next 'next
 
-                'if surrounding items are a bomb
-
-                '.text = amount of bombs in surrounding items & EXIT SUB
-
-                'else
-
-                'for a = x to gridsize-1, click on arr_btns(a,y)
+                'for a=x to 0, 
+                'Click on arr_btns(a, y)
                 'next
 
-                'for a=x to 0, click on arr_btns(a,y)
+                'for b=y to fridsize-1, c
+                'lick on arrbtns(x, b)
                 'next
 
-                'for b=y to fridsize-1, click on arrbtns(x, b)
-                'next
-
-                'for b=y to 0, click on arrbtns(x,b)
+                'for b=y to 0, 
+                'Click on arrbtns(x, b)
                 'next
 
                 'for a=x to gridsize-1
@@ -119,8 +185,6 @@ tryAgain:
                 'next
                 'next
             End If
-        Else
-            If e.Button = MouseButtons.Right Then this.BackColor = Nothing : this.UseVisualStyleBackColor = True
         End If
     End Sub
 
@@ -141,7 +205,7 @@ tryAgain:
         'show settings form to change grid size and amount of mines
     End Sub
 
-    Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
+    Private Sub AboutToolStripMenuItem_Click(sender As Object, e As MouseEventArgs) Handles AboutToolStripMenuItem.MouseDown
 
     End Sub
 End Class
