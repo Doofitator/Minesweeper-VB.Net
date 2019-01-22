@@ -1,13 +1,12 @@
 ﻿Public Class frm_main
     Public button_size As Integer = 30
-    Public grid_size As Integer = 50
+    Public grid_size As Integer = 30
     Public mines_amount As Integer = 10
     Public arr_btns(grid_size, grid_size) As Button
     Public mine_btns As New List(Of Button)
     Public firstStart As Boolean = True
 
     Public Sub frm_main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         mine_btns.Clear()
         tssl_ticker.Text = 0
         tssl_remainingMines.Text = mines_amount + 1
@@ -44,6 +43,9 @@
                     .TabStop = 0
                     .Name = x & "_" & y
                     .Font = New Font("Microsoft Sans Serif", 8, FontStyle.Bold)
+                    .BackColor = SystemColors.ControlLight
+                    .FlatStyle = FlatStyle.Flat
+                    .FlatAppearance.BorderColor = Color.Black
                 End With
                 Me.Controls.Add(arr_btns(x, y))
                 AddHandler arr_btns(x, y).Click, AddressOf mine     '| this basically causes everything to run twice, but its 2019 
@@ -99,29 +101,30 @@ tryAgain:
 
     Sub rightClick(sender As Object, e As MouseEventArgs)
         Dim this As Button = CType(sender, Button)
-        If Not this.BackColor = Color.Blue Then
-
-            If e.Button = MouseButtons.Right Then
+        If e.Button = MouseButtons.Right Then
+            If this.BackColor = Color.Blue Then
+                this.BackColor = Color.Cyan
+                tssl_remainingMines.Text += 1
+            ElseIf this.BackColor = Color.cyan Then
+                this.BackColor = SystemColors.ControlLight
+            ElseIf this.BackColor = SystemColors.ControlLight Then
                 this.BackColor = Color.Blue
                 tssl_remainingMines.Text -= 1
             End If
 
-        Else
-            If e.Button = MouseButtons.Right Then this.BackColor = Nothing : this.UseVisualStyleBackColor = True : tssl_remainingMines.Text += 1
-        End If
-        If tssl_remainingMines.Text <= 0 Then
-            Dim SafeList As New List(Of Button)
-            For Each control In Me.Controls
-                If TypeOf control Is Button Then
-                    If control.backcolor = Color.Blue Then SafeList.Add(control)
+            If tssl_remainingMines.Text <= 0 Then
+                Dim SafeList As New List(Of Button)
+                For Each control In Me.Controls
+                    If TypeOf control Is Button Then
+                        If control.backcolor = Color.Blue Then SafeList.Add(control)
+                    End If
+                Next
+
+                If Not AreSame(SafeList, mine_btns) Then
+                    Exit Sub
                 End If
-            Next
 
-            If Not AreSame(SafeList, mine_btns) Then
-                Exit Sub
-            End If
-
-            MsgBox("You win!")
+                MsgBox("You win!")
                 Dim ctrlList As New List(Of Button)
                 For Each control In Me.Controls
                     If Not TypeOf control Is StatusStrip And Not TypeOf control Is Timer Then
@@ -133,6 +136,7 @@ tryAgain:
                 Next
                 frm_main_Load(sender, e)
             End If
+        End If
     End Sub
 
     Sub mine(sender As Object, e As EventArgs)
@@ -140,8 +144,10 @@ tryAgain:
         'making sure because i really don't want to deal with this later
         If this.Enabled = False Then Exit Sub
 
-        If Not this.BackColor = Color.Blue Then
-            this.BackColor = SystemColors.ControlLight
+        If this.BackColor = SystemColors.ControlLight Then
+            this.BackColor = Color.FromArgb(254, 254, 254, 254)
+            this.FlatStyle = FlatStyle.Flat
+            this.FlatAppearance.BorderColor = Color.Black
             'get x,y
             Dim x As Integer
             Dim y As Integer
@@ -158,7 +164,11 @@ tryAgain:
             If mine_btns.Contains(this) Then
                 'GAME OVER
                 For Each mineLocation In mine_btns
-                    mineLocation.BackColor = Color.Yellow
+                    If Not mineLocation.BackColor = Color.Blue Then
+                        mineLocation.BackColor = Color.Yellow
+                    Else
+                        mineLocation.BackColor = Color.LightGreen
+                    End If
                 Next
                 this.BackColor = Color.Red
                 MsgBox("You lose!")
@@ -241,6 +251,9 @@ tryAgain:
                     End Select
                     Exit Sub
                 Else
+                    this.BackColor = Color.FromArgb(254, 254, 254, 254)
+                    this.FlatStyle = FlatStyle.Flat
+                    this.FlatAppearance.BorderColor = Color.Black
                     this.Enabled = False
                     For a = x To grid_size - 1
                         arr_btns(a, y).PerformClick() 'Click on arr_btns(a, y)

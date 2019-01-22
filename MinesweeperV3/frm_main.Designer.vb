@@ -95,6 +95,7 @@ Partial Class frm_main
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
         Me.Controls.Add(Me.stp_info)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
         Me.Name = "frm_main"
         Me.Text = "Minesweeper"
