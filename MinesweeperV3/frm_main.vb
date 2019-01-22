@@ -5,7 +5,7 @@
     Public arr_btns(grid_size, grid_size) As Button
     Public mine_btns As New List(Of Button)
 
-    Private Sub frm_main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Public Sub frm_main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         mine_btns.Clear()
         tssl_ticker.Text = 0
         tssl_remainingMines.Text = mines_amount
@@ -227,7 +227,7 @@ tryAgain:
     End Sub
 
     Private Sub SettingsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SettingsToolStripMenuItem.Click
-
+        frm_settings.ShowDialog()
     End Sub
 
     Private Sub AboutToolStripMenuItem_Click(sender As Object, e As MouseEventArgs) Handles AboutToolStripMenuItem.MouseDown
