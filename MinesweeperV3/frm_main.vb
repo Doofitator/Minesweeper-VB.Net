@@ -83,107 +83,125 @@ tryAgain:
         End If
     End Sub
 
+    Function h(i As Integer)
+        Console.WriteLine(i)
+    End Function
+
     Sub mine(sender As Object, e As EventArgs)
         Dim this As Button = CType(sender, Button)
-
         'making sure because i really don't want to deal with this later
         If this.Enabled = False Then Exit Sub
 
-        'get x,y
-        Dim x As Integer
-        Dim y As Integer
-        Dim found As Boolean = False
-        For y = 0 To grid_size - 1
-            For x = 0 To grid_size - 1
-                If sender Is arr_btns(x, y) Then found = True : Exit For
+        If Not this.BackColor = Color.Blue Then
+            'get x,y
+            Dim x As Integer
+            Dim y As Integer
+            Dim found As Boolean = False
+            For y = 0 To grid_size - 1
+                For x = 0 To grid_size - 1
+                    If sender Is arr_btns(x, y) Then found = True : Exit For
+                Next
+                If found = True Then Exit For
             Next
-            If found = True Then Exit For
-        Next
 
 
 
-        If mine_btns.Contains(this) Then
-            'GAME OVER
-            this.BackColor = Color.Red
-        Else
-            'find surrounding items
-            Dim lst_surrounds As New List(Of Button)
-
-            'the following are wrapped in individual try/catch because say you click the top left most button on the field - you'll cause an indexoutofrangeexception. There are better ways to handle this, but I've been working on some form of this project all summer, so I really can't be bothered anymore.
-
-            Try
-                lst_surrounds.Add(arr_btns(x - 1, y - 1))   'top left
-            Catch
-            End Try
-            Try
-                lst_surrounds.Add(arr_btns(x, y - 1))       'top
-            Catch
-            End Try
-            Try
-                lst_surrounds.Add(arr_btns(x + 1, y - 1))   'top right
-            Catch
-            End Try
-            Try
-                lst_surrounds.Add(arr_btns(x - 1, y))       'left
-            Catch
-            End Try
-            Try
-                lst_surrounds.Add(arr_btns(x + 1, y))       'right
-            Catch
-            End Try
-            Try
-                lst_surrounds.Add(arr_btns(x - 1, y + 1))   'bottom left
-            Catch
-            End Try
-            Try
-                lst_surrounds.Add(arr_btns(x, y + 1))       'bottom
-            Catch
-            End Try
-            Try
-                lst_surrounds.Add(arr_btns(x + 1, y + 1))   'bottom right
-            Catch
-            End Try
-
-            'if surrounding items are a bomb
-            Dim surroundingBombs As Integer = 0
-            For Each surroundingbtn As Button In lst_surrounds
-                If mine_btns.Contains(surroundingbtn) Then
-                    surroundingBombs += 1
-                End If
-            Next
-            '.text = amount of bombs in surrounding items & EXIT SUB
-            If surroundingBombs > 0 Then
-                this.Text = surroundingBombs
-
+            If mine_btns.Contains(this) Then
+                'GAME OVER
+                this.BackColor = Color.Red
             Else
-                this.Enabled = False
-                For a = x To grid_size - 1
-                    arr_btns(a, y).PerformClick() 'Click on arr_btns(a, y)
-                Next 'next
+                'find surrounding items
+                Dim lst_surrounds As New List(Of Button)
 
-                'for a=x to 0, 
-                'Click on arr_btns(a, y)
-                'next
+                'the following are wrapped in individual try/catch because say you click the top left most button on the field - you'll cause an indexoutofrangeexception. There are better ways to handle this, but I've been working on some form of this project all summer, so I really can't be bothered anymore.
 
-                'for b=y to fridsize-1, c
-                'lick on arrbtns(x, b)
-                'next
+                Try
+                    lst_surrounds.Add(arr_btns(x - 1, y - 1))   'top left
+                Catch
+                End Try
+                Try
+                    lst_surrounds.Add(arr_btns(x, y - 1))       'top
+                Catch
+                End Try
+                Try
+                    lst_surrounds.Add(arr_btns(x + 1, y - 1))   'top right
+                Catch
+                End Try
+                Try
+                    lst_surrounds.Add(arr_btns(x - 1, y))       'left
+                Catch
+                End Try
+                Try
+                    lst_surrounds.Add(arr_btns(x + 1, y))       'right
+                Catch
+                End Try
+                Try
+                    lst_surrounds.Add(arr_btns(x - 1, y + 1))   'bottom left
+                Catch
+                End Try
+                Try
+                    lst_surrounds.Add(arr_btns(x, y + 1))       'bottom
+                Catch
+                End Try
+                Try
+                    lst_surrounds.Add(arr_btns(x + 1, y + 1))   'bottom right
+                Catch
+                End Try
 
-                'for b=y to 0, 
-                'Click on arrbtns(x, b)
-                'next
+                'if surrounding items are a bomb
+                Dim surroundingBombs As Integer = 0
+                For Each surroundingbtn As Button In lst_surrounds
+                    If mine_btns.Contains(surroundingbtn) Then
+                        surroundingBombs += 1
+                    End If
+                Next
+                '.text = amount of bombs in surrounding items & EXIT SUB
+                h(1)
+                If Not surroundingBombs = 0 Then
+                    this.Text = surroundingBombs
+                    h(2)
+                    Exit Sub
+                Else
+                    h(3)
+                    this.Enabled = False
+                    For a = x To grid_size - 1
+                        arr_btns(a, y).PerformClick() 'Click on arr_btns(a, y)
+                        If Not arr_btns(a, y).Text = "" Then Exit For
+                    Next 'next
 
-                'for a=x to gridsize-1
-                'for b=y to gridsize-1
-                'click on arrbtns(a,b)
-                'next
-                'next
+                    For a = x To 0
+                        arr_btns(a, y).PerformClick() 'Click on arr_btns(a, y)
+                        If Not arr_btns(a, y).Text = "" Then Exit For
+                    Next
 
-                'for a=x to 0
-                'for b=y to 0
-                'click on arrbtns(a,b)
-                'next
-                'next
+                    For b = y To grid_size - 1
+                        arr_btns(x, b).PerformClick() 'lick on arrbtns(x, b)
+                        If Not arr_btns(x, b).Text = "" Then Exit For
+                    Next
+
+                    For b = y To 0
+                        arr_btns(x, b).PerformClick() 'Click on arrbtns(x, b)
+                        If Not arr_btns(x, b).Text = "" Then Exit For
+                    Next
+
+                    Dim for1 As Boolean = False
+                    For a = x To grid_size - 1
+                        For b = y To grid_size - 1
+                            arr_btns(a, b).PerformClick() 'click on arrbtns(a,b)
+                            If Not arr_btns(a, b).Text = "" Then for1 = True : Exit For
+                        Next
+                        If for1 = True Then Exit For
+                    Next
+
+                    Dim for2 As Boolean = False
+                    For a = x To 0
+                        For b = y To 0
+                            arr_btns(a, b).PerformClick() 'click on arrbtns(a,b)
+                            If Not arr_btns(a, b).Text = "" Then for2 = True : Exit For
+                        Next
+                        If for2 = True Then Exit For
+                    Next
+                End If
             End If
         End If
     End Sub
