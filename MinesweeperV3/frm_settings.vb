@@ -18,6 +18,6 @@
 
     Private Sub frm_settings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         nud_gridSize.Value = frm_main.grid_size
-        nud_mines.Value = frm_main.mines_amount
+        nud_mines.Value = frm_main.mines_amount + 1
     End Sub
 End Class
