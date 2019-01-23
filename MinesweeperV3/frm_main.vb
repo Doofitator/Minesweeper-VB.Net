@@ -43,7 +43,7 @@
                     .TabStop = 0
                     .Name = x & "_" & y
                     .Font = New Font("Microsoft Sans Serif", 8, FontStyle.Bold)
-                    .BackColor = SystemColors.ControlLight
+                    .BackColor = SystemColors.ControlDark
                     .FlatStyle = FlatStyle.Flat
                     .FlatAppearance.BorderColor = Color.Black
                 End With
@@ -72,10 +72,10 @@ tryAgain:
                 GoTo tryAgain
             End Try
 
-            If mine_btns.Contains(mineBtn) Then
+            If mine_btns.Contains(minebtn) Then
                 GoTo tryAgain
             Else
-                mine_btns.Add(mineBtn)
+                mine_btns.Add(minebtn)
             End If
         Next
     End Function
@@ -105,9 +105,9 @@ tryAgain:
             If this.BackColor = Color.Blue Then
                 this.BackColor = Color.Cyan
                 tssl_remainingMines.Text += 1
-            ElseIf this.BackColor = Color.cyan Then
-                this.BackColor = SystemColors.ControlLight
-            ElseIf this.BackColor = SystemColors.ControlLight Then
+            ElseIf this.BackColor = Color.Cyan Then
+                this.BackColor = SystemColors.ControlDark
+            ElseIf this.BackColor = SystemColors.ControlDark Then
                 this.BackColor = Color.Blue
                 tssl_remainingMines.Text -= 1
             End If
@@ -144,7 +144,7 @@ tryAgain:
         'making sure because i really don't want to deal with this later
         If this.Enabled = False Then Exit Sub
 
-        If this.BackColor = SystemColors.ControlLight Then
+        If this.BackColor = SystemColors.ControlDark Then
             this.BackColor = Color.FromArgb(254, 254, 254, 254)
             this.FlatStyle = FlatStyle.Flat
             this.FlatAppearance.BorderColor = Color.Black
