@@ -1,21 +1,23 @@
 ﻿Public Class frm_main
-    Public button_size As Integer = 30
-    Public grid_size As Integer = 30
-    Public mines_amount As Integer = 10
-    Public arr_btns(grid_size, grid_size) As Button
-    Public mine_btns As New List(Of Button)
-    Public firstStart As Boolean = True
+    Public int_btnSize As Integer = 30
+    Public int_gridSize As Integer = 30
+    Public int_minesAmount As Integer = 10
+    Public btnArray_btns(int_gridSize, int_gridSize) As Button
+    Public btnArray_mines As New List(Of Button)
+    Public bool_InitialLoad As Boolean = True
+    Public btn_lastClicked As Button = Nothing
 
     Public Sub frm_main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        mine_btns.Clear()
+        btnArray_mines.Clear()
         tssl_ticker.Text = 0
-        tssl_remainingMines.Text = mines_amount + 1
-        Me.ClientSize = New Size(button_size * grid_size, (button_size * grid_size) + 22)
+        tssl_remainingMines.Text = int_minesAmount + 1
+        Me.ClientSize = New Size(int_btnSize * int_gridSize, (int_btnSize * int_gridSize) + 22)
+        btn_lastClicked = Nothing
         loadGrid()
 
-        If firstStart Then
-            firstStart = False
-            grid_size = 10
+        If bool_InitialLoad Then
+            bool_InitialLoad = False
+            int_gridSize = 10
             Dim ctrlList As New List(Of Button)
             For Each control In Me.Controls
                 If Not TypeOf control Is StatusStrip And Not TypeOf control Is Timer Then
@@ -32,14 +34,14 @@
     End Sub
 
     Function loadGrid()
-        For y = 0 To grid_size - 1
-            For x = 0 To grid_size - 1
-                arr_btns(x, y) = New Button()
-                With arr_btns(x, y)
-                    .Width = button_size
-                    .Height = button_size
-                    .Top = x * button_size
-                    .Left = y * button_size
+        For y = 0 To int_gridSize - 1
+            For x = 0 To int_gridSize - 1
+                btnArray_btns(x, y) = New Button()
+                With btnArray_btns(x, y)
+                    .Width = int_btnSize
+                    .Height = int_btnSize
+                    .Top = x * int_btnSize
+                    .Left = y * int_btnSize
                     .TabStop = 0
                     .Name = x & "_" & y
                     .Font = New Font("Microsoft Sans Serif", 8, FontStyle.Bold)
@@ -47,35 +49,35 @@
                     .FlatStyle = FlatStyle.Flat
                     .FlatAppearance.BorderColor = Color.Black
                 End With
-                Me.Controls.Add(arr_btns(x, y))
-                AddHandler arr_btns(x, y).Click, AddressOf mine     '| this basically causes everything to run twice, but its 2019 
-                AddHandler arr_btns(x, y).MouseDown, AddressOf rightClick '| and everyone has 8GB of ram and > 2Ghz processor so I dont really care
+                Me.Controls.Add(btnArray_btns(x, y))
+                AddHandler btnArray_btns(x, y).Click, AddressOf mine     '| this basically causes everything to run twice, but its 2019 
+                AddHandler btnArray_btns(x, y).MouseDown, AddressOf rightClick '| and everyone has 8GB of ram and > 2Ghz processor so I dont really care
             Next
         Next
         loadMines()
     End Function
 
     Function loadMines()
-        Dim btnsList As List(Of Button) = New List(Of Button)
+        Dim btnArray_tempButtons As List(Of Button) = New List(Of Button)
         For Each control In Me.Controls
             If TypeOf control Is Button Then
-                btnsList.Add(control)
+                btnArray_tempButtons.Add(control)
             End If
         Next
-        For i = 0 To mines_amount
+        For i = 0 To int_minesAmount
             Dim minebtn As Button
 tryAgain:
             Randomize()
             Try
-                minebtn = btnsList.Item(CInt(Math.Ceiling(Rnd() * (grid_size ^ 2))))
+                minebtn = btnArray_tempButtons.Item(CInt(Math.Ceiling(Rnd() * (int_gridSize ^ 2))))
             Catch
                 GoTo tryAgain
             End Try
 
-            If mine_btns.Contains(minebtn) Then
+            If btnArray_mines.Contains(minebtn) Then
                 GoTo tryAgain
             Else
-                mine_btns.Add(minebtn)
+                btnArray_mines.Add(minebtn)
             End If
         Next
     End Function
@@ -120,7 +122,7 @@ tryAgain:
                     End If
                 Next
 
-                If Not AreSame(SafeList, mine_btns) Then
+                If Not AreSame(SafeList, btnArray_mines) Then
                     Exit Sub
                 End If
 
@@ -141,6 +143,7 @@ tryAgain:
 
     Sub mine(sender As Object, e As EventArgs)
         Dim this As Button = CType(sender, Button)
+        btn_lastClicked = this
         'making sure because i really don't want to deal with this later
         If this.Enabled = False Then Exit Sub
 
@@ -152,18 +155,18 @@ tryAgain:
             Dim x As Integer
             Dim y As Integer
             Dim found As Boolean = False
-            For y = 0 To grid_size - 1
-                For x = 0 To grid_size - 1
-                    If sender Is arr_btns(x, y) Then found = True : Exit For
+            For y = 0 To int_gridSize - 1
+                For x = 0 To int_gridSize - 1
+                    If sender Is btnArray_btns(x, y) Then found = True : Exit For
                 Next
                 If found = True Then Exit For
             Next
 
 
 
-            If mine_btns.Contains(this) Then
+            If btnArray_mines.Contains(this) Then
                 'GAME OVER
-                For Each mineLocation In mine_btns
+                For Each mineLocation In btnArray_mines
                     If Not mineLocation.BackColor = Color.Blue Then
                         mineLocation.BackColor = Color.Yellow
                     Else
@@ -189,42 +192,42 @@ tryAgain:
                 'the following are wrapped in individual try/catch because say you click the top left most button on the field - you'll cause an indexoutofrangeexception. There are better ways to handle this, but I've been working on some form of this project all summer, so I really can't be bothered anymore.
 
                 Try
-                    lst_surrounds.Add(arr_btns(x - 1, y - 1))   'top left
+                    lst_surrounds.Add(btnArray_btns(x - 1, y - 1))   'top left
                 Catch
                 End Try
                 Try
-                    lst_surrounds.Add(arr_btns(x, y - 1))       'top
+                    lst_surrounds.Add(btnArray_btns(x, y - 1))       'top
                 Catch
                 End Try
                 Try
-                    lst_surrounds.Add(arr_btns(x + 1, y - 1))   'top right
+                    lst_surrounds.Add(btnArray_btns(x + 1, y - 1))   'top right
                 Catch
                 End Try
                 Try
-                    lst_surrounds.Add(arr_btns(x - 1, y))       'left
+                    lst_surrounds.Add(btnArray_btns(x - 1, y))       'left
                 Catch
                 End Try
                 Try
-                    lst_surrounds.Add(arr_btns(x + 1, y))       'right
+                    lst_surrounds.Add(btnArray_btns(x + 1, y))       'right
                 Catch
                 End Try
                 Try
-                    lst_surrounds.Add(arr_btns(x - 1, y + 1))   'bottom left
+                    lst_surrounds.Add(btnArray_btns(x - 1, y + 1))   'bottom left
                 Catch
                 End Try
                 Try
-                    lst_surrounds.Add(arr_btns(x, y + 1))       'bottom
+                    lst_surrounds.Add(btnArray_btns(x, y + 1))       'bottom
                 Catch
                 End Try
                 Try
-                    lst_surrounds.Add(arr_btns(x + 1, y + 1))   'bottom right
+                    lst_surrounds.Add(btnArray_btns(x + 1, y + 1))   'bottom right
                 Catch
                 End Try
 
                 'if surrounding items are a bomb
                 Dim surroundingBombs As Integer = 0
                 For Each surroundingbtn As Button In lst_surrounds
-                    If mine_btns.Contains(surroundingbtn) Then
+                    If btnArray_mines.Contains(surroundingbtn) Then
                         surroundingBombs += 1
                     End If
                 Next
@@ -255,31 +258,31 @@ tryAgain:
                     this.FlatStyle = FlatStyle.Flat
                     this.FlatAppearance.BorderColor = Color.Black
                     this.Enabled = False
-                    For a = x To grid_size - 1
-                        arr_btns(a, y).PerformClick() 'Click on arr_btns(a, y)
-                        If Not arr_btns(a, y).Text = "" Then Exit For
+                    For a = x To int_gridSize - 1
+                        btnArray_btns(a, y).PerformClick() 'Click on btnArray_btns(a, y)
+                        If Not btnArray_btns(a, y).Text = "" Then Exit For
                     Next 'next
 
                     For a = x To 0 Step -1
-                        arr_btns(a, y).PerformClick() 'Click on arr_btns(a, y)
-                        If Not arr_btns(a, y).Text = "" Then Exit For
+                        btnArray_btns(a, y).PerformClick() 'Click on btnArray_btns(a, y)
+                        If Not btnArray_btns(a, y).Text = "" Then Exit For
                     Next
 
-                    For b = y To grid_size - 1
-                        arr_btns(x, b).PerformClick() 'lick on arrbtns(x, b)
-                        If Not arr_btns(x, b).Text = "" Then Exit For
+                    For b = y To int_gridSize - 1
+                        btnArray_btns(x, b).PerformClick() 'lick on arrbtns(x, b)
+                        If Not btnArray_btns(x, b).Text = "" Then Exit For
                     Next
 
                     For b = y To 0 Step -1
-                        arr_btns(x, b).PerformClick() 'Click on arrbtns(x, b)
-                        If Not arr_btns(x, b).Text = "" Then Exit For
+                        btnArray_btns(x, b).PerformClick() 'Click on arrbtns(x, b)
+                        If Not btnArray_btns(x, b).Text = "" Then Exit For
                     Next
 
                     Dim for1 As Boolean = False
-                    For a = x To grid_size - 1
-                        For b = y To grid_size - 1
-                            arr_btns(a, b).PerformClick() 'click on arrbtns(a,b)
-                            If Not arr_btns(a, b).Text = "" Then for1 = True : Exit For
+                    For a = x To int_gridSize - 1
+                        For b = y To int_gridSize - 1
+                            btnArray_btns(a, b).PerformClick() 'click on arrbtns(a,b)
+                            If Not btnArray_btns(a, b).Text = "" Then for1 = True : Exit For
                         Next
                         If for1 = True Then Exit For
                     Next
@@ -287,8 +290,8 @@ tryAgain:
                     Dim for2 As Boolean = False
                     For a = x To 0 Step -1
                         For b = y To 0 Step -1
-                            arr_btns(a, b).PerformClick() 'click on arrbtns(a,b)
-                            If Not arr_btns(a, b).Text = "" Then for2 = True : Exit For
+                            btnArray_btns(a, b).PerformClick() 'click on arrbtns(a,b)
+                            If Not btnArray_btns(a, b).Text = "" Then for2 = True : Exit For
                         Next
                         If for2 = True Then Exit For
                     Next
@@ -297,7 +300,7 @@ tryAgain:
         End If
     End Sub
 
-    Private Sub NewGameToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewGameToolStripMenuItem.Click
+    Private Sub tsmi_newGame_Click(sender As Object, e As EventArgs) Handles tsmi_newGame.Click
         Dim ctrlList As New List(Of Button)
         For Each control In Me.Controls
             If Not TypeOf control Is StatusStrip And Not TypeOf control Is Timer Then
@@ -310,11 +313,74 @@ tryAgain:
         frm_main_Load(sender, e)
     End Sub
 
-    Private Sub SettingsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SettingsToolStripMenuItem.Click
+    Private Sub tsmi_Settings_Click(sender As Object, e As EventArgs) Handles tsmi_Settings.Click
         frm_settings.ShowDialog()
     End Sub
 
-    Private Sub AboutToolStripMenuItem_Click(sender As Object, e As MouseEventArgs) Handles AboutToolStripMenuItem.MouseDown
+    Private Sub tsmi_About_Click(sender As Object, e As MouseEventArgs) Handles tsmi_about.MouseDown
         MsgBox("Minesweeper Clone" & vbCrLf & "Created by Ash Sharkey for VCE Software Development 2018-19.", vbOKOnly + vbInformation, "About")
+    End Sub
+
+    Private Sub tsmi_cheat_Click(sender As Object, e As EventArgs) Handles tsmi_cheat.Click
+
+        'find latest click
+        If btn_lastClicked Is Nothing Then
+            btn_lastClicked = DirectCast(Controls("0_0"), Button)
+        ElseIf CInt(btn_lastClicked.Name.Split("_"c)(0)) > int_gridSize Then
+            btn_lastClicked = DirectCast(Controls("0_0"), Button)
+        End If
+
+        Dim str_closestName As String = Nothing
+        Dim int_closestLen As Integer = Nothing
+
+        'find next closest mine
+        For Each btn_mine In btnArray_mines
+            Dim str_btnName = btn_mine.Name
+
+            If btn_mine.BackColor = Color.Blue Then
+                GoTo nextFor
+            End If
+
+            Try
+                Dim int_btnName_X As Integer = CInt(str_btnName.Split("_"c)(0))
+                Dim int_btnName_Y As Integer = CInt(str_btnName.Split("_"c)(1))
+                Dim int_lastClicked_X As Integer = CInt(btn_lastClicked.Name.Split("_"c)(0))
+                Dim int_lastClicked_Y As Integer = CInt(btn_lastClicked.Name.Split("_"c)(1))
+
+                Dim int_distance As Integer
+                int_distance = Math.Sqrt((int_btnName_X - int_lastClicked_X) ^ 2 + (int_btnName_Y - int_lastClicked_Y) ^ 2)
+                If int_distance < int_closestLen Or int_closestLen = Nothing Then
+                    int_closestLen = int_distance
+                    str_closestName = str_btnName
+                End If
+            Catch
+                Console.WriteLine("Out of buttons!")
+            End Try
+nextFor:
+        Next
+
+
+        'flash red
+
+        Dim btn_nextMine As Button = Nothing
+        Dim btn_temp As Control = Controls(str_closestName)
+
+        If TypeOf btn_temp Is Button Then
+            btn_nextMine = DirectCast(btn_temp, Button)
+        End If
+        Dim bColor = btn_nextMine.BackColor
+        btn_nextMine.BackColor = Color.Red
+        Dim int_count As Integer = 0
+        While int_count < 7
+            If int_count Mod 2 = 0 Then
+                btn_nextMine.BackColor = bColor
+            Else
+                btn_nextMine.BackColor = Color.Red
+            End If
+            Threading.Thread.Sleep(20)
+            Me.Refresh()
+            int_count += 1
+        End While
+
     End Sub
 End Class

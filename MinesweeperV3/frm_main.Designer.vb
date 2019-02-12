@@ -26,12 +26,13 @@ Partial Class frm_main
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frm_main))
         Me.stp_info = New System.Windows.Forms.StatusStrip()
         Me.tssb_menu = New System.Windows.Forms.ToolStripDropDownButton()
-        Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.NewGameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsmi_about = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsmi_settings = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsmi_newGame = New System.Windows.Forms.ToolStripMenuItem()
         Me.tssl_ticker = New System.Windows.Forms.ToolStripStatusLabel()
         Me.tssl_remainingMines = New System.Windows.Forms.ToolStripStatusLabel()
         Me.tmr = New System.Windows.Forms.Timer(Me.components)
+        Me.tsmi_cheat = New System.Windows.Forms.ToolStripMenuItem()
         Me.stp_info.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -47,30 +48,31 @@ Partial Class frm_main
         'tssb_menu
         '
         Me.tssb_menu.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.tssb_menu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutToolStripMenuItem, Me.SettingsToolStripMenuItem, Me.NewGameToolStripMenuItem})
+        Me.tssb_menu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsmi_about, Me.tsmi_settings, Me.tsmi_newGame, Me.tsmi_cheat})
         Me.tssb_menu.Image = CType(resources.GetObject("tssb_menu.Image"), System.Drawing.Image)
         Me.tssb_menu.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tssb_menu.Name = "tssb_menu"
         Me.tssb_menu.Size = New System.Drawing.Size(51, 20)
         Me.tssb_menu.Text = "Game"
         '
-        'AboutToolStripMenuItem
+        'tsmi_about
         '
-        Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(132, 22)
-        Me.AboutToolStripMenuItem.Text = "About"
+        Me.tsmi_about.Name = "tsmi_about"
+        Me.tsmi_about.Size = New System.Drawing.Size(180, 22)
+        Me.tsmi_about.Text = "About"
         '
-        'SettingsToolStripMenuItem
+        'tsmi_settings
         '
-        Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
-        Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(132, 22)
-        Me.SettingsToolStripMenuItem.Text = "Settings"
+        Me.tsmi_settings.Name = "tsmi_settings"
+        Me.tsmi_settings.Size = New System.Drawing.Size(180, 22)
+        Me.tsmi_settings.Text = "Settings"
         '
-        'NewGameToolStripMenuItem
+        'tsmi_newGame
         '
-        Me.NewGameToolStripMenuItem.Name = "NewGameToolStripMenuItem"
-        Me.NewGameToolStripMenuItem.Size = New System.Drawing.Size(132, 22)
-        Me.NewGameToolStripMenuItem.Text = "New Game"
+        Me.tsmi_newGame.Name = "tsmi_newGame"
+        Me.tsmi_newGame.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
+        Me.tsmi_newGame.Size = New System.Drawing.Size(180, 22)
+        Me.tsmi_newGame.Text = "New Game"
         '
         'tssl_ticker
         '
@@ -88,6 +90,13 @@ Partial Class frm_main
         '
         Me.tmr.Enabled = True
         Me.tmr.Interval = 1000
+        '
+        'tsmi_cheat
+        '
+        Me.tsmi_cheat.Name = "tsmi_cheat"
+        Me.tsmi_cheat.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.H), System.Windows.Forms.Keys)
+        Me.tsmi_cheat.Size = New System.Drawing.Size(180, 22)
+        Me.tsmi_cheat.Text = "Hint"
         '
         'frm_main
         '
@@ -110,8 +119,9 @@ Partial Class frm_main
     Friend WithEvents tssb_menu As ToolStripDropDownButton
     Friend WithEvents tssl_ticker As ToolStripStatusLabel
     Friend WithEvents tssl_remainingMines As ToolStripStatusLabel
-    Friend WithEvents SettingsToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents NewGameToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents AboutToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents tsmi_settings As ToolStripMenuItem
+    Friend WithEvents tsmi_newGame As ToolStripMenuItem
+    Friend WithEvents tsmi_about As ToolStripMenuItem
     Friend WithEvents tmr As Timer
+    Friend WithEvents tsmi_cheat As ToolStripMenuItem
 End Class
