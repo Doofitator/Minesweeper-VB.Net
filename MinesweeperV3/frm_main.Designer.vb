@@ -29,10 +29,10 @@ Partial Class frm_main
         Me.tsmi_about = New System.Windows.Forms.ToolStripMenuItem()
         Me.tsmi_settings = New System.Windows.Forms.ToolStripMenuItem()
         Me.tsmi_newGame = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsmi_cheat = New System.Windows.Forms.ToolStripMenuItem()
         Me.tssl_ticker = New System.Windows.Forms.ToolStripStatusLabel()
         Me.tssl_remainingMines = New System.Windows.Forms.ToolStripStatusLabel()
         Me.tmr = New System.Windows.Forms.Timer(Me.components)
-        Me.tsmi_cheat = New System.Windows.Forms.ToolStripMenuItem()
         Me.stp_info.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -53,26 +53,33 @@ Partial Class frm_main
         Me.tssb_menu.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tssb_menu.Name = "tssb_menu"
         Me.tssb_menu.Size = New System.Drawing.Size(51, 20)
-        Me.tssb_menu.Text = "Game"
+        Me.tssb_menu.Text = "Menu"
         '
         'tsmi_about
         '
         Me.tsmi_about.Name = "tsmi_about"
-        Me.tsmi_about.Size = New System.Drawing.Size(180, 22)
+        Me.tsmi_about.Size = New System.Drawing.Size(175, 22)
         Me.tsmi_about.Text = "About"
         '
         'tsmi_settings
         '
         Me.tsmi_settings.Name = "tsmi_settings"
-        Me.tsmi_settings.Size = New System.Drawing.Size(180, 22)
-        Me.tsmi_settings.Text = "Settings"
+        Me.tsmi_settings.Size = New System.Drawing.Size(175, 22)
+        Me.tsmi_settings.Text = "Options"
         '
         'tsmi_newGame
         '
         Me.tsmi_newGame.Name = "tsmi_newGame"
         Me.tsmi_newGame.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.tsmi_newGame.Size = New System.Drawing.Size(180, 22)
+        Me.tsmi_newGame.Size = New System.Drawing.Size(175, 22)
         Me.tsmi_newGame.Text = "New Game"
+        '
+        'tsmi_cheat
+        '
+        Me.tsmi_cheat.Name = "tsmi_cheat"
+        Me.tsmi_cheat.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.H), System.Windows.Forms.Keys)
+        Me.tsmi_cheat.Size = New System.Drawing.Size(175, 22)
+        Me.tsmi_cheat.Text = "Hint"
         '
         'tssl_ticker
         '
@@ -90,13 +97,6 @@ Partial Class frm_main
         '
         Me.tmr.Enabled = True
         Me.tmr.Interval = 1000
-        '
-        'tsmi_cheat
-        '
-        Me.tsmi_cheat.Name = "tsmi_cheat"
-        Me.tsmi_cheat.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.H), System.Windows.Forms.Keys)
-        Me.tsmi_cheat.Size = New System.Drawing.Size(180, 22)
-        Me.tsmi_cheat.Text = "Hint"
         '
         'frm_main
         '
