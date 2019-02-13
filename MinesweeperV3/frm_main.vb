@@ -314,7 +314,7 @@ tryAgain:
     End Sub
 
     Private Sub tsmi_Settings_Click(sender As Object, e As EventArgs) Handles tsmi_Settings.Click
-        frm_settings.ShowDialog()
+        frm_options.ShowDialog()
     End Sub
 
     Private Sub tsmi_About_Click(sender As Object, e As MouseEventArgs) Handles tsmi_about.MouseDown

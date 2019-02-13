@@ -1,4 +1,4 @@
-﻿Public Class frm_settings
+﻿Public Class frm_options
     Private Sub btn_save_Click(sender As Object, e As EventArgs) Handles btn_save.Click
         frm_main.int_minesAmount = nud_mines.Value - 1
         frm_main.int_gridSize = nud_gridSize.Value
