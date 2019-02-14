@@ -2,4 +2,4 @@
 
 ### A clone of Minesweeper in Visual Basic that took me way too long to build
 
-<img src="https://doofitator.github.io/images/projects/minesweeper/img2.PNG" alt="ms" border="0">
+<img src="https://kaylin.elixi.re/i/eon2.png" alt="Minesweeper-VB on Windows 10" border="0">
